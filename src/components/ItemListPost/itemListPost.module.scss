@@ -1,0 +1,26 @@
+@import '../../styles/variables';
+
+.post {
+   margin-bottom: 3rem;
+}
+
+.title {
+   font-weight: bold;
+   font-size: 1.75rem;
+   color: $heading;
+   margin-bottom: 0.5rem;
+ }
+
+ .description {
+   font-weight: $regular;
+   font-size: 1.125rem;
+   color: $body;
+   margin-bottom: 1.5rem;
+ }
+
+ .info {
+   font-weight: $regular;
+   font-size: 0.875rem;
+   color: $body;
+ }
+ 
