@@ -7,6 +7,8 @@ import { getPrismicClient } from '../../services/prismic';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 
+import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
+
 interface Post {
   first_publication_date: string | null;
   data: {
@@ -43,7 +45,9 @@ export default function Post({ Post }: PostProps): JSX.Element {
         <article className={styles.article}>
           <h1>Criando um app CRA do zero</h1>
           <div className={styles.info}>
-            15 Mar 2021 - Joseph Oliveira - 4 min
+          <FiCalendar /> 15 Mar 2021 
+          <FiUser /> Joseph Oliveira 
+          <FiClock /> 4 min
           </div>
 
           <h2>Proin et varius</h2>

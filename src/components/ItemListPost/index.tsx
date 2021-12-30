@@ -1,4 +1,5 @@
 import { FiCalendar, FiUser } from 'react-icons/fi';
+import Link from 'next/link';
 
 import styles from './itemListPost.module.scss';
 
@@ -19,7 +20,12 @@ interface ItemListPostProps {
 export default function ItemListPost({ post }: ItemListPostProps): JSX.Element {
   return (
     <div className={styles.post}>
-      <h2 className={styles.title}>{post.data.title}</h2>
+      <Link href={`/post/${post.uid}`} passHref>
+        <h2 className={styles.title}>
+          <a>{post.data.title}</a>
+        </h2>
+      </Link>
+
       <h3 className={styles.description}>{post.data.subtitle}</h3>
       <div className={styles.info}>
         <FiCalendar />
