@@ -1,5 +1,7 @@
+@import 'variables';
+
 .container {
-   width: calc(700px + 4rem);
+   width: calc($paddingPage + $widthPage + $paddingPage );
    margin: 0 auto;
-   padding: 0 2rem;
+   padding: 0 $paddingPage;
 }

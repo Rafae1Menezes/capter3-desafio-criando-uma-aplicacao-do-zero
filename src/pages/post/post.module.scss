@@ -2,7 +2,7 @@
 
 .banner {
   width: 100%;
-  min-width: 800px;
+  min-width: calc($paddingPage + $widthPage + $paddingPage );
   height: 25rem;
   position: relative;
 
