@@ -41,7 +41,7 @@ export default function Post({ post }: PostProps): JSX.Element {
       </div>
 
       <div className={styles.banner}>
-        <Image src="/banner.png" alt="banner" layout="fill" />
+        <Image src={post.data.banner.url} alt="banner" layout="fill" />
       </div>
 
       <div className={commonStyles.container}>
@@ -55,6 +55,7 @@ export default function Post({ post }: PostProps): JSX.Element {
 
           {post.data.content.map((part, index) => (
             <div key={part.heading}>
+              {console.log(part)}
               <h2>{part.heading}</h2>
               <div
                 dangerouslySetInnerHTML={{ __html: RichText.asHtml(part.body) }}
@@ -77,7 +78,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
   const prismic = getPrismicClient();
 
