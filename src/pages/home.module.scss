@@ -1,5 +1,31 @@
+@import '../styles/variables';
+
 .logo {
-  margin-top: 79.55px;
-  margin-bottom: 65px;  
+  margin-top: 4.9rem;
+  margin-bottom: 4rem;  
 }
+
+.posts {
+
+   & > {
+      color: red;
+   }
+}
+
+.botao{
+   margin-top: 1rem;
+   color: $highlight;
+   font-size: 1.125rem;
+   font-weight: $semiBold;
+   cursor: pointer;   
+   background-color: transparent;
+   border: 0;
+   outline: 0;
+
+   &.desactived{
+      display: none;
+   }
+}
+
+
 

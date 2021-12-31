@@ -2,45 +2,48 @@
 
 .post {
    margin-bottom: 3rem;
-}
 
-.title {
-   font-weight: bold;
-   font-size: 1.75rem;
-   color: $heading;
-   margin-bottom: 0.5rem;
-   cursor: pointer;
+  .title {
+    font-weight: bold;
+    font-size: 1.75rem;
+    color: $heading;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
 
-   a {
+    a {
       text-decoration: none;
-   }
+    }
 
-   &:hover {
+    &:hover {
       color: $highlight;
-   }
- }
+    }
 
- .description {
-   font-weight: $regular;
-   font-size: 1.125rem;
-   color: $body;
-   margin-bottom: 1.5rem;
- }
+    :first-child {
+      margin-top: 0;
+    }
+  }
 
- .info {
-   font-weight: $regular;
-   font-size: 0.875rem;
-   color: $body;
+  .description {
+    font-weight: $regular;
+    font-size: 1.125rem;
+    color: $body;
+    margin-bottom: 1.5rem;
+  }
 
-   svg {
+  .info {
+    font-weight: $regular;
+    font-size: 0.875rem;
+    color: $body;
+
+    svg {
       margin-right: 8px;
       margin-left: 24px;
 
       &:first-child {
-         margin-left: 0px;
+        margin-left: 0px;
       }
-   }
+    }
+  }
 
-   
- }
- 
+  
+}

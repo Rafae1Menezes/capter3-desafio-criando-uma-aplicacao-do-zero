@@ -45,9 +45,9 @@ export default function Post({ Post }: PostProps): JSX.Element {
         <article className={styles.article}>
           <h1>Criando um app CRA do zero</h1>
           <div className={styles.info}>
-          <FiCalendar /> 15 Mar 2021 
-          <FiUser /> Joseph Oliveira 
-          <FiClock /> 4 min
+            <FiCalendar /> 15 Mar 2021
+            <FiUser /> Joseph Oliveira
+            <FiClock /> 4 min
           </div>
 
           <h2>Proin et varius</h2>
@@ -68,9 +68,20 @@ export default function Post({ Post }: PostProps): JSX.Element {
             Lorem ipsum dolor, sit amet consectetur adipisicing elit.{' '}
             <a href="#">Laboriosam veniam dicta ad voluptatibus</a> delectus
             fugiat natus, aliquam perspiciatis! Dolorem commodi alias maiores
-            asperiores iusto qui, cupiditate ad ut nihil et! delectus
-            fugiat natus, aliquam perspiciatis! Dolorem commodi alias maiores
-            asperiores iusto qui, cupiditate ad ut nihil et! delectus
+            asperiores iusto qui, cupiditate ad ut nihil et! delectus fugiat
+            natus, aliquam perspiciatis! Dolorem commodi alias maiores
+            asperiores iusto qui, cupiditate ad ut nihil et! delectus fugiat
+            natus, aliquam perspiciatis! Dolorem commodi alias maiores
+            asperiores iusto qui, cupiditate ad ut nihil et!
+          </p>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam
+            veniam dicta ad voluptatibus delectus fugiat natus, aliquam
+            perspiciatis! Dolorem commodi alias maiores asperiores iusto qui,
+            cupiditate ad ut nihil et! aliquam perspiciatis! Dolorem commodi
+            alias maiores asperiores iusto qui, cupiditate ad ut nihil et!
+            delectus fugiat natus, aliquam perspiciatis! Dolorem commodi alias
+            maiores asperiores iusto qui, cupiditate ad ut nihil et! delectus
             fugiat natus, aliquam perspiciatis! Dolorem commodi alias maiores
             asperiores iusto qui, cupiditate ad ut nihil et!
           </p>
@@ -78,21 +89,10 @@ export default function Post({ Post }: PostProps): JSX.Element {
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam
             veniam dicta ad voluptatibus delectus fugiat natus, aliquam
             perspiciatis! Dolorem commodi alias maiores asperiores iusto qui,
-            cupiditate ad ut nihil et! aliquam perspiciatis! Dolorem commodi alias maiores
-            asperiores iusto qui, cupiditate ad ut nihil et! delectus
-            fugiat natus, aliquam perspiciatis! Dolorem commodi alias maiores
-            asperiores iusto qui, cupiditate ad ut nihil et! delectus
-            fugiat natus, aliquam perspiciatis! Dolorem commodi alias maiores
-            asperiores iusto qui, cupiditate ad ut nihil et!
-          </p>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam
-            veniam dicta ad voluptatibus delectus fugiat natus, aliquam
-            perspiciatis! Dolorem commodi alias maiores asperiores iusto qui,
-            cupiditate ad ut nihil et! aliquam perspiciatis! Dolorem commodi alias maiores
-            asperiores iusto qui, cupiditate ad ut nihil et! delectus
-            fugiat natus, aliquam perspiciatis! Dolorem commodi alias maiores
-            asperiores iusto qui, cupiditate ad ut nihil et! delectus
+            cupiditate ad ut nihil et! aliquam perspiciatis! Dolorem commodi
+            alias maiores asperiores iusto qui, cupiditate ad ut nihil et!
+            delectus fugiat natus, aliquam perspiciatis! Dolorem commodi alias
+            maiores asperiores iusto qui, cupiditate ad ut nihil et! delectus
             fugiat natus, aliquam perspiciatis! Dolorem commodi alias maiores
             asperiores iusto qui, cupiditate ad ut nihil et!
           </p>
