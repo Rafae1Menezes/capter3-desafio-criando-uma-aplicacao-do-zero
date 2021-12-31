@@ -4,6 +4,8 @@ import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { RichText } from 'prismic-dom';
+import Prismic from '@prismicio/client';
+import { useRouter } from 'next/router';
 
 import Header from '../../components/Header';
 
@@ -47,6 +49,7 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
+  const router = useRouter();
   return (
     <>
       <div className={commonStyles.container}>
@@ -58,35 +61,51 @@ export default function Post({ post }: PostProps): JSX.Element {
       </div>
 
       <div className={commonStyles.container}>
-        <article className={styles.article}>
-          <h1>{post.data.title}</h1>
-          <div className={styles.info}>
-            <FiCalendar /> {post.first_publication_date}
-            <FiUser /> {post.data.author}
-            <FiClock /> {calcTime(post.data.content)}
-          </div>
-
-          {post.data.content.map(part => (
-            <div key={part.heading}>
-              <h2>{part.heading}</h2>
-              <div
-                dangerouslySetInnerHTML={{ __html: RichText.asHtml(part.body) }}
-              />
+        {router.isFallback ? (
+          <div>Loading...</div>
+        ) : (
+          <article className={styles.article}>
+            <h1>{post.data.title}</h1>
+            <div className={styles.info}>
+              <FiCalendar /> {post.first_publication_date}
+              <FiUser /> {post.data.author}
+              <FiClock /> {calcTime(post.data.content)}
             </div>
-          ))}
-        </article>
+
+            {post.data.content.map(part => (
+              <div key={part.heading}>
+                <h2>{part.heading}</h2>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: RichText.asHtml(part.body),
+                  }}
+                />
+              </div>
+            ))}
+          </article>
+        )}
       </div>
     </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  //   const prismic = getPrismicClient();
-  //   const posts = await prismic.query(TODO);
+  const prismic = getPrismicClient();
+  const posts = await prismic.query(
+    Prismic.predicates.at('document.type', 'post'),
+    {}
+  );
+
+  const uids = posts.results.map(post => post.uid);
+
+  const paths = [
+    { params: { slug: `${uids[0]}` } },
+    { params: { slug: `${uids[1]}` } },
+  ];
 
   return {
-    paths: [],
-    fallback: 'blocking',
+    paths,
+    fallback: true,
   };
 };
 
@@ -94,7 +113,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
   const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID('post', `${slug}`, {});
+  const response = await prismic.getByUID('post', `${slug}`, {
+    pageSize: 2,
+    page: 1,
+  });
 
   const post: Post = {
     first_publication_date: format(
@@ -116,5 +138,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
     },
+    revalidate: 60 * 30, // 30 minutos
   };
 };

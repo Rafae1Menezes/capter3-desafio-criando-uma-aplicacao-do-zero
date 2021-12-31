@@ -3,10 +3,11 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { useState } from 'react';
-
+import Prismic from '@prismicio/client';
 import ItemListPost from '../components/ItemListPost';
 
 import { getPrismicClient } from '../services/prismic';
+
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
@@ -95,11 +96,14 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
 
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient();
-  // refazer esse query
-  const postsResponse = await prismic.query('', {
-    pageSize: 2,
-    page: 1,
-  });
+ 
+  const postsResponse = await prismic.query(
+    Prismic.predicates.at('document.type', 'post'),
+    {
+      pageSize: 2,
+      page: 1,
+    }
+  );
 
   const posts: Post[] = formatPosts(postsResponse.results);
 
