@@ -99,10 +99,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const uids = posts.results.map(post => post.uid);
 
-  const paths = [
-    { params: { slug: 'ele-sabe-fazer-jantinha' } },
-    { params: { slug: 'criando-um-app-cra-do-zero1' } },
-  ];
+  const paths = [{ params: { slug: uids[0] } }, { params: { slug: uids[1] } }];
 
   return {
     paths,
@@ -118,8 +115,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     pageSize: 2,
     page: 1,
   });
-
-  console.log(response);
 
   const post: Post = {
     first_publication_date: format(
