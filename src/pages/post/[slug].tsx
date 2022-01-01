@@ -50,6 +50,11 @@ interface PostProps {
 
 export default function Post({ post }: PostProps): JSX.Element {
   const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className={commonStyles.container}>
@@ -61,29 +66,25 @@ export default function Post({ post }: PostProps): JSX.Element {
       </div>
 
       <div className={commonStyles.container}>
-        {router.isFallback ? (
-          <div>Loading...</div>
-        ) : (
-          <article className={styles.article}>
-            <h1>{post.data.title}</h1>
-            <div className={styles.info}>
-              <FiCalendar /> {post.first_publication_date}
-              <FiUser /> {post.data.author}
-              <FiClock /> {calcTime(post.data.content)}
-            </div>
+        <article className={styles.article}>
+          <h1>{post.data.title}</h1>
+          <div className={styles.info}>
+            <FiCalendar /> {post.first_publication_date}
+            <FiUser /> {post.data.author}
+            <FiClock /> {calcTime(post.data.content)}
+          </div>
 
-            {post.data.content.map(part => (
-              <div key={part.heading}>
-                <h2>{part.heading}</h2>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: RichText.asHtml(part.body),
-                  }}
-                />
-              </div>
-            ))}
-          </article>
-        )}
+          {post.data.content.map(part => (
+            <div key={part.heading}>
+              <h2>{part.heading}</h2>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: RichText.asHtml(part.body),
+                }}
+              />
+            </div>
+          ))}
+        </article>
       </div>
     </>
   );
@@ -99,8 +100,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const uids = posts.results.map(post => post.uid);
 
   const paths = [
-    { params: { slug: `${uids[0]}` } },
-    { params: { slug: `${uids[1]}` } },
+    { params: { slug: 'ele-sabe-fazer-jantinha' } },
+    { params: { slug: 'criando-um-app-cra-do-zero1' } },
   ];
 
   return {
@@ -117,6 +118,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     pageSize: 2,
     page: 1,
   });
+
+  console.log(response);
 
   const post: Post = {
     first_publication_date: format(
