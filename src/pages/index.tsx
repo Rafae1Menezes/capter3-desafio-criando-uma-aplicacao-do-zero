@@ -31,22 +31,6 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-function formatPosts(posts): Post[] {
-  const postsFormated: Post[] = posts.map(post => {
-    return {
-      uid: post.uid,
-      first_publication_date: post.first_publication_date,
-      data: {
-        title: post.data.title,
-        subtitle: post.data.subtitle,
-        author: post.data.author,
-      },
-    };
-  });
-
-  return postsFormated;
-}
-
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
   const [posts, setPosts] = useState(postsPagination.results);
   const [nextPage, setNextPage] = useState(postsPagination.next_page);
@@ -55,8 +39,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
     fetch(nextPage)
       .then(response => response.json())
       .then(data => {
-        const newPosts = formatPosts(data.results);
-        setPosts([...posts, ...newPosts]);
+        setPosts([...posts, ...data.results]);
         setNextPage(data.next_page);
       });
   };
@@ -111,13 +94,11 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   );
 
-  console.log(postsResponse)
-
   return {
     props: {
       postsPagination: {
         next_page: postsResponse.next_page,
-        results: formatPosts(postsResponse.results) as Post[],
+        results: postsResponse.results,
       },
     } as HomeProps,
   };

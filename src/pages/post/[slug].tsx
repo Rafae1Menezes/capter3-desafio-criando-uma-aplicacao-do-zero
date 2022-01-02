@@ -28,11 +28,9 @@ function calcTime(content): string {
 }
 
 interface Post {
-  uid: string;
   first_publication_date: string | null;
   data: {
     title: string;
-    subtitle: string;
     banner: {
       url: string;
     };
@@ -130,24 +128,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     page: 1,
   });
 
-  const post: Post = {
-    uid: response.uid,
-    first_publication_date: response.first_publication_date,
-    data: {
-      title: response.data.title,
-      subtitle: response.data.subtitle,
-      banner: {
-        url: response.data.banner.url,
-      },
-      author: response.data.author,
-      content: response.data.content,
-    },
-  };
-
   return {
     props: {
-      post,
-    },
+      post: response,
+    } as PostProps,
     revalidate: 60 * 30, // 30 minutos
   };
 };
