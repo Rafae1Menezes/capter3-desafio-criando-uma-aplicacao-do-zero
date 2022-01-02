@@ -108,9 +108,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
     {}
   );
 
-  const uids = posts.results.map(post => post.uid);
+  const paths = posts.results.reduce((acc, post, index) => {
+    if (index < 2) return [...acc, { params: { slug: post.uid } }];
+    return acc;
+  }, []);
 
-  const paths = [{ params: { slug: uids[0] } }, { params: { slug: uids[1] } }];
+  console.log(paths);
 
   return {
     paths,

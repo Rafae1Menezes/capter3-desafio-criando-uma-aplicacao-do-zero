@@ -35,7 +35,7 @@ function formatPosts(posts): Post[] {
   const postsFormated: Post[] = posts.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: post.last_publication_date,
+      first_publication_date: post.first_publication_date,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
@@ -107,8 +107,11 @@ export const getStaticProps: GetStaticProps = async () => {
     {
       pageSize: 2,
       page: 1,
+      orderings: '[document.first_publication_date desc]',
     }
   );
+
+  console.log(postsResponse)
 
   return {
     props: {
