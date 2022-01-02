@@ -17,20 +17,22 @@ import styles from './post.module.scss';
 function calcTime(content): string {
   const totalPalavras = content.reduce((acc, actual) => {
     const text = RichText.asText(actual.body);
-    const tamanho = text.split(/(\w+)/g).length;
+    const tamanho = text.split(' ').length;
 
     return acc + tamanho;
   }, 0);
 
   const minutos = Math.ceil(totalPalavras / 200);
 
-  return `${minutos} minutos`;
+  return `${minutos} min`;
 }
 
 interface Post {
+  uid: string;
   first_publication_date: string | null;
   data: {
     title: string;
+    subtitle: string;
     banner: {
       url: string;
     };
@@ -52,7 +54,7 @@ export default function Post({ post }: PostProps): JSX.Element {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return <div>Carregando...</div>;
   }
 
   return (
@@ -69,9 +71,18 @@ export default function Post({ post }: PostProps): JSX.Element {
         <article className={styles.article}>
           <h1>{post.data.title}</h1>
           <div className={styles.info}>
-            <FiCalendar /> {post.first_publication_date}
-            <FiUser /> {post.data.author}
-            <FiClock /> {calcTime(post.data.content)}
+            <FiCalendar />
+
+            <span>
+              {format(new Date(post.first_publication_date), 'd LLL yyyy', {
+                locale: ptBR,
+              })}
+            </span>
+
+            <FiUser />
+            <span>{post.data.author}</span>
+            <FiClock />
+            <span>{calcTime(post.data.content)}</span>
           </div>
 
           {post.data.content.map(part => (
@@ -117,15 +128,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   });
 
   const post: Post = {
-    first_publication_date: format(
-      new Date(response.first_publication_date),
-      'd LLL yyyy',
-      { locale: ptBR }
-    ),
+    uid: response.uid,
+    first_publication_date: response.first_publication_date,
     data: {
       title: response.data.title,
+      subtitle: response.data.subtitle,
       banner: {
-        url: response.data.author1.url,
+        url: response.data.banner.url,
       },
       author: response.data.author,
       content: response.data.content,

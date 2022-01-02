@@ -1,5 +1,7 @@
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import Link from 'next/link';
+import ptBR from 'date-fns/locale/pt-BR';
+import { format } from 'date-fns';
 
 import styles from './itemListPost.module.scss';
 
@@ -29,9 +31,13 @@ export default function ItemListPost({ post }: ItemListPostProps): JSX.Element {
       <h3 className={styles.description}>{post.data.subtitle}</h3>
       <div className={styles.info}>
         <FiCalendar />
-        {post.first_publication_date}
+        <span>
+          {format(new Date(post.first_publication_date), 'd LLL yyyy', {
+            locale: ptBR,
+          })}
+        </span>
         <FiUser />
-        {post.data.author}
+        <span>{post.data.author}</span>
       </div>
     </div>
   );

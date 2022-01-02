@@ -1,13 +1,10 @@
 import { GetStaticProps } from 'next';
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
 
 import { useState } from 'react';
 import Prismic from '@prismicio/client';
 import ItemListPost from '../components/ItemListPost';
 
 import { getPrismicClient } from '../services/prismic';
-
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
@@ -35,13 +32,7 @@ function formatPosts(posts): Post[] {
   const postsFormated: Post[] = posts.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: format(
-        new Date(post.last_publication_date),
-        'd LLL yyyy',
-        {
-          locale: ptBR,
-        }
-      ),
+      first_publication_date: post.last_publication_date,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
@@ -68,7 +59,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
       setPosts([...posts, ...newPosts]);
       setNextPage(res.next_page);
     }
-    if (res.total_pages === res.page) setisAllLoad(true);
+    if (!res.next_page) setisAllLoad(true);
   };
 
   const handleLoad = (): void => {
@@ -88,7 +79,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
         className={`${styles.botao} ${isAllLoad ? styles.desactived : ''}`}
         onClick={handleLoad}
       >
-        Carregar Mais
+        Carregar mais posts
       </button>
     </div>
   );
@@ -96,7 +87,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
 
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient();
- 
+
   const postsResponse = await prismic.query(
     Prismic.predicates.at('document.type', 'post'),
     {
