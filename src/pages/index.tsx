@@ -1,11 +1,14 @@
-import { GetStaticProps } from 'next';
-
 import { useState } from 'react';
+import { GetStaticProps } from 'next';
+import Link from 'next/link';
 import Prismic from '@prismicio/client';
-import ItemListPost from '../components/ItemListPost';
+
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
+import { FiCalendar, FiUser } from 'react-icons/fi';
 
 import { getPrismicClient } from '../services/prismic';
-
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
@@ -47,40 +50,51 @@ function formatPosts(posts): Post[] {
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
   const [posts, setPosts] = useState(postsPagination.results);
   const [nextPage, setNextPage] = useState(postsPagination.next_page);
-  const [isAllLoad, setisAllLoad] = useState(false);
-
-  const loadPage = async (): Promise<void> => {
-    const res = await fetch(nextPage)
-      .then(response => response.json())
-      .then(data => data);
-
-    if (res.results.length) {
-      const newPosts = formatPosts(res.results);
-      setPosts([...posts, ...newPosts]);
-      setNextPage(res.next_page);
-    }
-    if (!res.next_page) setisAllLoad(true);
-  };
 
   const handleLoad = (): void => {
-    loadPage();
+    fetch(nextPage)
+      .then(response => response.json())
+      .then(data => {
+        const newPosts = formatPosts(data.results);
+        setPosts([...posts, ...newPosts]);
+        setNextPage(data.next_page);
+      });
   };
 
   return (
     <div className={commonStyles.container}>
       <img src="logo.svg" alt="logo" className={styles.logo} />
-
       {posts.map(post => (
-        <ItemListPost key={post.uid} post={post} />
-      ))}
+        <div key={post.uid} className={styles.post}>
+          <Link href={`/post/${post.uid}`} passHref>
+            <h2 className={styles.title}>
+              <a>{post.data.title}</a>
+            </h2>
+          </Link>
 
-      <button
-        type="button"
-        className={`${styles.botao} ${isAllLoad ? styles.desactived : ''}`}
-        onClick={handleLoad}
-      >
-        Carregar mais posts
-      </button>
+          <h3 className={styles.description}>{post.data.subtitle}</h3>
+          <div className={styles.info}>
+            <FiCalendar />
+            <span>
+              {format(new Date(post.first_publication_date), 'd LLL yyyy', {
+                locale: ptBR,
+              })}
+            </span>
+            <FiUser />
+            <span>{post.data.author}</span>
+          </div>
+        </div>
+      ))}
+      {nextPage && (
+        <button
+          type="button"
+          className={styles.botao}
+          onClick={() => handleLoad()}
+        >
+          Carregar mais posts
+        </button>
+      )}
+      s
     </div>
   );
 }
@@ -96,16 +110,12 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   );
 
-  const posts: Post[] = formatPosts(postsResponse.results);
-
-  const postPagination: PostPagination = {
-    next_page: postsResponse.next_page,
-    results: posts,
-  };
-
   return {
     props: {
-      postsPagination: postPagination,
-    },
+      postsPagination: {
+        next_page: postsResponse.next_page,
+        results: formatPosts(postsResponse.results) as Post[],
+      },
+    } as HomeProps,
   };
 };
