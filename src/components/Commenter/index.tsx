@@ -1,7 +1,7 @@
-export function Comments(): JSX.Element {
+export default function Commenter(): JSX.Element {
   return (
     <section
-      style={{ width: '100%' }}
+      style={{ width: '100%', marginBottom: '5rem' }}
       ref={element => {
         if (!element) {
           return;

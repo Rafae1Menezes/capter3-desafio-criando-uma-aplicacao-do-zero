@@ -7,6 +7,7 @@ import { RichText } from 'prismic-dom';
 import Prismic from '@prismicio/client';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
 import Header from '../../components/Header';
 
@@ -14,7 +15,7 @@ import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
-import { Comments } from '../../components/Comments';
+import Commenter from '../../components/Commenter';
 
 function calcTime(content): string {
   const totalPalavras = content.reduce((acc, actual) => {
@@ -32,6 +33,7 @@ function calcTime(content): string {
 interface Post {
   uid: string;
   first_publication_date: string | null;
+  last_publication_date: string | null;
   data: {
     title: string;
     banner: {
@@ -49,19 +51,21 @@ interface Post {
 
 interface PostProps {
   post: Post;
+  edit: string;
   prevpost: Post | null;
   nextpost: Post | null;
 }
 
 export default function Post({
   post,
+  edit,
   prevpost,
   nextpost,
 }: PostProps): JSX.Element {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <div>Carregando...</div>;
+    return <div className={styles.loading}>Carregando...</div>;
   }
 
   return (
@@ -91,6 +95,7 @@ export default function Post({
             <FiClock />
             <span>{calcTime(post.data.content)}</span>
           </div>
+          <div className={styles.edit}>{edit}</div>
 
           {post.data.content.map(part => (
             <div key={part.heading}>
@@ -104,33 +109,30 @@ export default function Post({
           ))}
         </article>
 
+        <div className={styles.separator} />
+
         {(prevpost || nextpost) && (
-          <>
-            <div className={styles.separator} />
-            <div className={styles.buttons}>
-              {prevpost && (
-                <div className={styles.prevpost}>
-                  <Link href={`/post/${prevpost.uid}`} passHref>
-                    <a>{prevpost.data.title}</a>
-                  </Link>
-                  <span>Post Anterior</span>
-                </div>
-              )}
-              {nextpost && (
-                <div className={styles.nextpost}>
-                  <Link href={`/post/${nextpost.uid}`} passHref>
-                    <a>{nextpost.data.title}</a>
-                  </Link>
-                  <span>Próximo Post</span>
-                </div>
-              )}
-            </div>
-          </>
+          <div className={styles.buttons}>
+            {nextpost && (
+              <div className={styles.nextpost}>
+                <Link href={`/post/${nextpost.uid}`} passHref>
+                  <a>{nextpost.data.title}</a>
+                </Link>
+                <span>Post Anterior</span>
+              </div>
+            )}
+            {prevpost && (
+              <div className={styles.prevpost}>
+                <Link href={`/post/${prevpost.uid}`} passHref>
+                  <a>{prevpost.data.title}</a>
+                </Link>
+                <span>Próximo Post</span>
+              </div>
+            )}
+          </div>
         )}
 
-        <div className={styles.separator} />
-        <Comments />
-        <div className={styles.separator} />
+        <Commenter />
       </div>
     </>
   );
@@ -157,6 +159,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
   const prismic = getPrismicClient();
+  let edit = '';
 
   const response = await prismic.getByUID('post', `${slug}`, {
     pageSize: 2,
@@ -179,9 +182,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
   ).results;
 
+  console.log(response);
+
+  if (response?.first_publication_date !== response?.last_publication_date) {
+    const date = format(
+      new Date(response.last_publication_date),
+      "d LLL yyyy', às' H:m",
+      {
+        locale: ptBR,
+      }
+    );
+    edit = `* editado em ${date}`;
+  }
+
   return {
     props: {
       post: response,
+      edit,
       prevpost: prevpost.length ? prevpost[0] : null,
       nextpost: nextpost.length ? nextpost[0] : null,
     } as PostProps,

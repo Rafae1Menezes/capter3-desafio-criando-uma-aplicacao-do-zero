@@ -13,6 +13,7 @@
 
 .article {
   color: #d7d7d7;
+  font-size: 1.125rem;
 
   h1 {
     color: $heading;
@@ -20,10 +21,11 @@
     margin-bottom: 1.5rem;
     font-size: 3rem;
     font-weight: $bold;
+    margin-top: 5.25rem;
   }
 
   .info {
-    margin-bottom: 5.25rem;
+    
     color: $info;
 
     svg {
@@ -58,36 +60,48 @@
       text-decoration: underline;
     }
   }
+
+  .edit {
+     font-size: 0.875rem;
+     color:$info; 
+     font-weight: $regular;
+     font-style: italic;
+     margin-top: 16px;
+  }
 }
 
 .separator {
-  height: 5rem;
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+  border: 1px solid #d7d7d71a;
 }
 
 .buttons {
-   position: relative;
-   height: 6rem;
+  position: relative;
+  height: 6rem;
+  margin-bottom: 5rem;
 
-  .prevpost{
-   width: 38%;
-   display: inline-block;
-   position: absolute;
-   left: 0;
-  } 
-  
-  .nextpost{
-   width: 38%;
-   display: inline-block;
-   position: absolute;
-   right: 0;
-   text-align: right;
+  .prevpost {
+    width: 38%;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    text-align: right;
+  }
+
+  .nextpost {
+    width: 38%;
+    display: inline-block;
+    position: absolute;
+    left: 0;
   }
 
   a {
     display: block;
     text-decoration: none;
     color: $heading;
-    font-size: 1rem;
+    font-size: 1.125rem;
+    font-weight: $regular;
 
     &:hover {
       color: $highlight;
@@ -96,7 +110,8 @@
 
   span {
     color: $highlight;
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 3;
+    font-weight: $semiBold;
   }
 }
