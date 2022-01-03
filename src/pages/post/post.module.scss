@@ -25,7 +25,6 @@
   }
 
   .info {
-    
     color: $info;
 
     svg {
@@ -62,11 +61,11 @@
   }
 
   .edit {
-     font-size: 0.875rem;
-     color:$info; 
-     font-weight: $regular;
-     font-style: italic;
-     margin-top: 16px;
+    font-size: 0.875rem;
+    color: $info;
+    font-weight: $regular;
+    font-style: italic;
+    margin-top: 16px;
   }
 }
 
@@ -113,5 +112,22 @@
     font-size: 1rem;
     line-height: 3;
     font-weight: $semiBold;
+  }
+}
+
+.exitPreview {
+  background-color: $heading;
+  height: 3.625rem;
+  line-height: 3.625rem;
+  text-align: center;
+
+  a {
+    color: $background;
+    font-size: 1, 125rem;
+    text-decoration: none;
+    font-weight: $semiBold;
+  }
+  a:hover{
+     color: $highlight;
   }
 }

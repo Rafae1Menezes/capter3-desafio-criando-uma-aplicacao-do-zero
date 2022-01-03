@@ -50,6 +50,7 @@ interface Post {
 }
 
 interface PostProps {
+  preview: boolean;
   post: Post;
   edit: string;
   prevpost: Post | null;
@@ -57,6 +58,7 @@ interface PostProps {
 }
 
 export default function Post({
+  preview,
   post,
   edit,
   prevpost,
@@ -133,6 +135,14 @@ export default function Post({
         )}
 
         <Commenter />
+
+        {preview && (
+          <aside className={styles.exitPreview}>
+            <Link href="/api/exit-preview">
+              <a>Sair do modo Preview</a>
+            </Link>
+          </aside>
+        )}
       </div>
     </>
   );
@@ -156,7 +166,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  preview = false,
+  previewData,
+}) => {
   const { slug } = params;
   const prismic = getPrismicClient();
   let edit = '';
@@ -164,6 +178,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const response = await prismic.getByUID('post', `${slug}`, {
     pageSize: 2,
     page: 1,
+    ref: previewData?.ref ?? null,
   });
 
   const prevpost = (
@@ -182,8 +197,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
   ).results;
 
-  console.log(response);
-
   if (response?.first_publication_date !== response?.last_publication_date) {
     const date = format(
       new Date(response.last_publication_date),
@@ -197,6 +210,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
+      preview,
       post: response,
       edit,
       prevpost: prevpost.length ? prevpost[0] : null,
