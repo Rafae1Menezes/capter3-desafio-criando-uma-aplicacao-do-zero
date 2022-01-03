@@ -2,7 +2,7 @@
 
 .banner {
   width: 100%;
-  min-width: calc($paddingPage + $widthPage + $paddingPage );
+  min-width: calc($paddingPage + $widthPage + $paddingPage);
   height: 25rem;
   position: relative;
 
@@ -13,7 +13,6 @@
 
 .article {
   color: #d7d7d7;
-  padding-bottom: 5rem;
 
   h1 {
     color: $heading;
@@ -24,17 +23,17 @@
   }
 
   .info {
-     margin-bottom: 5.25rem;
-     color: $info;
+    margin-bottom: 5.25rem;
+    color: $info;
 
-     svg {
+    svg {
       margin-right: 0.5rem;
       margin-left: 1.5rem;
 
       &:first-child {
-         margin-left: 0px;
+        margin-left: 0px;
       }
-   }
+    }
   }
 
   h2 {
@@ -46,12 +45,10 @@
   }
 
   p {
-     margin-bottom: 2rem;
-     text-align: justify;
-     line-height: 1.4;
+    margin-bottom: 2rem;
+    text-align: justify;
+    line-height: 1.4;
   }
-
-  
 
   a {
     color: $highlight;
@@ -60,5 +57,46 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.separator {
+  height: 5rem;
+}
+
+.buttons {
+   position: relative;
+   height: 6rem;
+
+  .prevpost{
+   width: 38%;
+   display: inline-block;
+   position: absolute;
+   left: 0;
+  } 
+  
+  .nextpost{
+   width: 38%;
+   display: inline-block;
+   position: absolute;
+   right: 0;
+   text-align: right;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    color: $heading;
+    font-size: 1rem;
+
+    &:hover {
+      color: $highlight;
+    }
+  }
+
+  span {
+    color: $highlight;
+    font-size: 0.9rem;
+    line-height: 3;
   }
 }
