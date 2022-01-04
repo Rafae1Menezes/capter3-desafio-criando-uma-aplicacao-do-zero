@@ -82,12 +82,8 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({preview = false,
-   previewData}) => {
+export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient();
-
-  console.log(preview)
-  console.log(previewData)
 
   const postsResponse = await prismic.query(
     Prismic.predicates.at('document.type', 'post'),
